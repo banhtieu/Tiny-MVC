@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <script src="/bower_components/webcomponentsjs/webcomponents.min.js"></script>
+    <link rel="import"  href="/bower_components/core-scaffold/core-scaffold.html" />
+    <link rel="import" href="/bower_components/core-menu/core-menu.html" />
+    <link rel="import" href="/bower_components/core-item/core-item.html" />
+    <link rel="import" href="/bower_components/core-icon/core-icon.html" />
+    <link rel="import" href="/bower_components/core-icon-button/core-icon-button.html" />
+    <link rel="import" href="/bower_components/paper-button/paper-button.html" />
+    <link rel="import" href="/bower_components/paper-icon-button/paper-icon-button.html" />
+    <link rel="import" href="/Admin/Components/category-editor.html" />
+    <link rel="stylesheet" href="/Admin/Styles/admin.css" shim-shadowdom="shim-shadowdom" />
+
+
+    <!-- font -->
+    <link href='http://fonts.googleapis.com/css?family=Roboto:100,300,400' rel='stylesheet' type='text/css'>
+    <title>The Admin Console</title>
+    <style>
+    </style>
+</head>
+<body id="admin-page">
+    <core-scaffold drawerWidth="200px">
+
+        <core-header-panel navigation flex mode="seamed" class="side-bar">
+            <core-toolbar class="brand">
+                <core-icon icon="shopping-cart"></core-icon>
+                <span>Quản lý</span>
+            </core-toolbar>
+            <core-menu>
+                <core-item icon="dashboard">Thống kê</core-item>
+                <core-item icon="wallet-giftcard">Danh mục</core-item>
+                <core-item icon="add-shopping-cart">Hàng hoá</core-item>
+                <core-item icon="settings">Cấu hình</core-item>
+            </core-menu>
+        </core-header-panel>
+
+        <div tool>
+            <paper-icon-button icon="search"></paper-icon-button>
+        </div>
+
+        <div class="content" layout horizontal fullbleed>
+            <category-editor flex></category-editor>
+        </div>
+
+    </core-scaffold>
+</body>
+</html>

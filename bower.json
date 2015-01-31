@@ -1,0 +1,35 @@
+{
+  "name": "BTFramework",
+  "version": "0.1",
+  "authors": [
+    "banhtieu"
+  ],
+  "description": "A PHP Framework to use with Polymer",
+  "main": "Index.html",
+  "keywords": [
+    "BanhTieu",
+    "PHP",
+    "Framework",
+    "Polymer"
+  ],
+  "license": "MIT",
+  "homepage": "www.banhtieu.com",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "polymer": "Polymer/polymer#~0.5.4",
+    "core-scaffold": "Polymer/core-scaffold#~0.5.4",
+    "core-icon": "Polymer/core-icon#~0.5.4",
+    "core-menu": "Polymer/core-menu#~0.5.4",
+    "core-item": "Polymer/core-item#~0.5.4",
+    "paper-button": "Polymer/paper-button#~0.5.4",
+    "paper-icon-button": "Polymer/paper-icon-button#~0.5.4",
+    "paper-input": "Polymer/paper-input#~0.5.4"
+  }
+}

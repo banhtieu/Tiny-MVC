@@ -1,0 +1,152 @@
+$toolbar-height: 50px;
+$toolbar-bg: rgb(21, 130, 220);
+$secondary-menu-bg: rgba(21, 130, 220, 0.02);
+$brand-bg: rgb(20, 123, 208);
+$sidebar-color:  rgb(79, 80, 97);
+
+body /deep/
+{
+  * {
+    font-family: "Roboto", Arial, sans-serif;
+    font-weight: 100;
+  }
+
+  core-scaffold /deep/ core-toolbar {
+    background-color: $toolbar-bg;
+    height: $toolbar-height;
+    color: white;
+    font-size: 16px;
+
+    /deep/ .toolbar-tools {
+      height: $toolbar-height;
+    }
+  }
+
+  core-toolbar.brand {
+    background-color: $brand-bg;
+  }
+
+  .side-bar {
+    background-color: $sidebar-color;
+    font-size: 16px;
+
+    /deep/ core-menu {
+      margin: 0px;
+
+      /deep/ core-item {
+        color: rgba(255, 255, 255, 0.8);
+        font-size: 14px;
+
+        padding: 3px 10px;
+
+        /deep/ core-icon {
+          width: 15px;
+        }
+      }
+
+      /deep/ core-item.core-selected {
+        background-color: $toolbar-bg;
+        color: #fff;
+        font-weight: normal;
+      }
+    }
+  }
+
+  core-header-panel[main] {
+    background-color: rgba(23, 150, 255, 0.07);
+  }
+
+  .content {
+    background-color: #fff;
+    color: rgba(0, 0, 0, 0.8);
+
+    * {
+      font-weight: 300;
+    }
+  }
+
+  core-menu.secondary-menu {
+
+    background-color: $secondary-menu-bg;
+    width: 250px;
+    margin: 0px;
+
+    /deep/ core-item {
+      margin: 5px;
+      font-size: 14px;
+      border-radius: 5px;
+      padding: 0px 10px;
+
+      /deep/ core-icon {
+        width: 15px;
+      }
+    }
+
+    /deep/ core-item.core-selected {
+      background-color: $toolbar-bg;
+      color: #fff;
+      font-weight: normal;
+    }
+  }
+
+  .table {
+
+    .title {
+      border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+      font-size: xx-large;
+      padding: 10px 20px;
+    }
+
+    .body {
+      display: table;
+      width: 100%;
+
+      .header, .row {
+        display: table-row;
+
+        > div {
+          display: table-cell;
+          padding: 10px 20px;
+          border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+        }
+
+        > div:nth-child(1) {
+          width: 30px;
+        }
+
+        > div.action, > div.editor {
+          padding: 0px;
+        }
+
+        > div.action {
+          width: 120px;
+        }
+
+      }
+
+      .header {
+        > div {
+          font-weight: 400;
+          cursor: pointer;
+        }
+        > div:hover {
+          background-color: rgba(0, 0, 0, 0.05);
+        }
+      }
+
+      .row:nth-child(odd) {
+        background-color: rgba(0, 0, 0, 0.025);
+      }
+
+    }
+  }
+
+  paper-input {
+    width: 100%;
+
+    /deep/ #underline {
+      display: none;
+    }
+  }
+}
+
