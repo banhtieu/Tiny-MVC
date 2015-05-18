@@ -19,89 +19,25 @@ class Column {
      * name of the column
      * @var string
      */
-    private $name;
+    public $name;
 
     /**
      * type of the column
      * @var string
      */
-    private $type;
+    public $type;
 
     /**
      * if the column is a key
      * @var bool
      */
-    private $isKey;
+    public $isKey;
 
     /**
      * Database type
      * @var int
      */
-    private $dbType;
-
-
-    /**
-     * Construct a column by type
-     * @param string $type type of the column
-     */
-    public function  __constructor() {
-    }
-
-    /**
-     * @return int
-     */
-    public function getDbType()
-    {
-        return $this->dbType;
-    }
-
-    /**
-     * @param int $dbType
-     */
-    public function setDbType($dbType)
-    {
-        $this->dbType = $dbType;
-    }
-
-    /**
-     * @return boolean
-     */
-    public function isKey()
-    {
-        return $this->isKey;
-    }
-
-    /**
-     * @param boolean $isKey
-     */
-    public function setIsKey($isKey)
-    {
-        $this->isKey = $isKey;
-    }
-
-    /**
-     * @return string
-     */
-    public function getName()
-    {
-        return $this->name;
-    }
-
-    /**
-     * @param string $name
-     */
-    public function setName($name)
-    {
-        $this->name = $name;
-    }
-
-    /**
-     * @return string
-     */
-    public function getType()
-    {
-        return $this->type;
-    }
+    public $dbType;
 
     /**
      * @param string $type
@@ -113,14 +49,14 @@ class Column {
 
         // set database type
         if ($type == "string") {
-            $this->setDbType("varchar(255)");
+            $this->dbType = "varchar(255)";
         } else if ($type == "identity") {
-            $this->setDbType("int(11)");
-            $this->setIsKey(true);
+            $this->dbType = "int(11)";
+            $this->isKey = true;
         } else if ($type == "int") {
-            $this->setDbType("int(11)");
+            $this->dbType = "int(11)";
         } else {
-            $this->setDbType($type);
+            $this->dbType = $type;
         }
     }
 
@@ -132,7 +68,7 @@ class Column {
         $sql = $this->getName() . " " . $this->getDbType();
 
         if ($this->isKey()) {
-            $sql .= " NOT NULL AUTO_INCREMENT";
+            $sql .= " PRIMARY KEY NOT NULL AUTO_INCREMENT";
         }
 
         return $sql;

@@ -31,3 +31,17 @@ $migration->execute();
 // initialize an application
 $application = new Application();
 $application->render();
+
+$tour = new \Application\Model\Tour();
+$tour->details = "Hello This is a Tour";
+
+try {
+
+    $tourCollection = \Core\Database\Repository::get("Tour");
+    $tourCollection->save($tour);
+    $tours = $tourCollection->findAll();
+
+    echo json_encode($tours);
+} catch (Exception $exception) {
+    var_dump($exception);
+}

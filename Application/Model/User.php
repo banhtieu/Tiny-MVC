@@ -7,80 +7,31 @@
  */
 
 namespace Application\Model;
+use Core\Database\Model;
 
 /**
  * Class User
  * @package Application\Model
  * @entity
  */
-class User {
+class User extends Model {
 
     /**
-     * The identified
-     * @var int
+     * @var int id - the unique id of this object
      * @Column(identity)
      */
-    private $id;
-
+    public $id;
 
     /**
      * @var string the username
      * @Column(string)
      */
-    private $username;
+    public $username;
 
     /**
      * @var string password
      * @Column(string)
      */
-    private $password;
+    public $password;
 
-    /**
-     * Set Id of this Object
-     * @param $id
-     */
-    public function setId($id) {
-        $this->setId($id);
-    }
-
-
-    /**
-     * Get Id of this object
-     * @return int
-     */
-    public function getId() {
-        return $this->id;
-    }
-
-    /**
-     * @return string
-     */
-    public function getUsername()
-    {
-        return $this->username;
-    }
-
-    /**
-     * @param string $username
-     */
-    public function setUsername($username)
-    {
-        $this->username = $username;
-    }
-
-    /**
-     * @return string
-     */
-    public function getPassword()
-    {
-        return $this->password;
-    }
-
-    /**
-     * @param string $password
-     */
-    public function setPassword($password)
-    {
-        $this->password = $password;
-    }
 }

@@ -22,7 +22,7 @@ class NameDecorator {
      * @return string name of the table
      */
     public static function getTableName($className) {
-        return $className . "s";
+        return strtolower($className) . "s";
     }
 
 } 

@@ -16,11 +16,11 @@ namespace Core\Database;
 class Repository {
 
     /**
-     * @param string $name name of the collection
+     * @param $name
      * @return Collection
      */
-    public static function __get(string $name) {
-        return new Repository();
+    public static function get($name) {
+        return new Collection($name);
     }
 
 }

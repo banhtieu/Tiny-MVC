@@ -40,19 +40,13 @@ class Migration {
         }
     }
 
+
     /**
-     *
-     * Migrate a table
-     * @param string $fileName
+     * Get Class Properties
+     * @param $item
+     * @return array
      */
-    public function migrateTable($fileName) {
-
-        include_once ($fileName);
-        $className = "Application\\Model\\" . basename($fileName, ".php");
-
-        // create an instance of the class
-        $item = new $className();
-
+    public static function getProperties($item) {
         // create a reflector
         $reflector = new \ReflectionClass($item);
         $columns = array();
@@ -69,14 +63,33 @@ class Migration {
                 $type = $matches["type"];
 
                 $column = new Column();
-                
+
                 $column->setType($type);
-                $column->setName($property->getName());
+                $column->name = $property->name;
 
                 $columns[] = $column;
             }
         }
 
+        return $columns;
+    }
+
+    /**
+     *
+     * Migrate a table
+     * @param string $fileName
+     */
+    public function migrateTable($fileName) {
+
+        include_once ($fileName);
+        $className = "Application\\Model\\" . basename($fileName, ".php");
+
+        // create an instance of the class
+        $item = new $className();
+
+        $columns = $this->getProperties($item);
+
+        $reflector = new \ReflectionClass($item);
         // get name of the table
         $tableName = NameDecorator::getTableName($reflector->getShortName());
 
@@ -84,7 +97,7 @@ class Migration {
         $dbColumns = $this->database->executeQuery($query, "Core\\Database\\DBColumn");
 
         // if there is no such table, create it
-        if ($dbColumns === false) {
+        if ($dbColumns === false || sizeof($dbColumns) == 0) {
             $this->createTable($tableName, $columns);
         } else { // do a migration
             $this->updateTable($tableName, $columns, $dbColumns);
@@ -137,7 +150,7 @@ class Migration {
 
             foreach ($dbColumns as $dbColumn) {
                 /** @var DBColumn $dbColumn */
-                if ($dbColumn->getField() == $column->getName()) {
+                if ($dbColumn->Field == $column->name) {
                     $matchedColumn = $dbColumn;
                     array_splice($dbColumns, $index, 1);
                     break;
@@ -149,7 +162,7 @@ class Migration {
             // if there is a matched column
             if ($matchedColumn) {
                 // compare type
-                if ($matchedColumn->getType() != $column->getDbType()) {
+                if ($matchedColumn->Type != $column->dbType) {
                     $updatedColumns[] = $column;
                 }
             } else {
@@ -178,15 +191,16 @@ class Migration {
         // build drop statements
         foreach ($droppedColumns as $column) {
             /** @var DBColumn column */
-            $alterStatements[] = "DROP " . $column->getField() . "";
+            $alterStatements[] = "DROP " . $column->Field . "";
         }
 
         // if there are changes
         if (sizeof($alterStatements) > 0) {
             $query = "ALTER TABLE $tableName\n";
             $query .= join(",\n", $alterStatements);
-            echo $query;
             $this->database->executeUpdate($query);
+
+            echo $query;
         }
     }
 

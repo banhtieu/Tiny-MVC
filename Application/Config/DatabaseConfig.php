@@ -18,7 +18,7 @@ class DatabaseConfig {
      * Connection string
      *
      */
-    const CONNECTION_STRING = "mysql:host=127.0.0.1;dbname=cart";
+    const CONNECTION_STRING = "mysql:host=127.0.0.1;dbname=tinymvc";
 
     /**
      * The username

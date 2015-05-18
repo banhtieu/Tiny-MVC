@@ -7,6 +7,8 @@
  */
 
 namespace Core\Database;
+use Core\Database;
+use Core\Migration;
 
 
 /**
@@ -35,36 +37,99 @@ class Collection {
      * @param Model $entity
      */
     public function save(Model $entity) {
+        /* @var Column $keyColumn */
+        $keyColumn = null;
+        $tableName = $this->getTableName();
+        $columns = Migration::getProperties($entity);
+        $database = Database::getInstance();
 
+        $keys = array();
+        $values = array();
+
+        foreach ($columns as $column) {
+            if (!$column->isKey) {
+                $keys[] = $column->name;
+                $values[] = $entity->{$column->name};
+            } else {
+                $keyColumn = $column;
+            }
+        }
+
+        if ($keyColumn) {
+            $keyValue = $entity->{$keyColumn->name};
+            $query = null;
+
+            // if there is an id
+            if ($keyValue != null) {
+
+                $setCommands = array();
+
+                foreach ($columns as $column) {
+                    /* @var Column $column */
+                    if (!$column->isKey) {
+                        $setCommands[] = $column->name . " = ?";
+                    }
+                }
+
+                $query = "UPDATE $tableName";
+                $query .= " SET " . join(", ", $setCommands);
+                $query .= " WHERE $keyColumn->name = ?";
+
+                $values[] = $keyValue;
+
+            } else {
+
+
+                $query = "INSERT INTO $tableName";
+                $query.= "(" . join(", ", $keys) . ")";
+
+                $questionMarks = array_fill(0, sizeof($columns) - 1, "?");
+
+                $query .= "VALUES (" . join(", ", $questionMarks) . ")";
+            }
+
+            var_dump($query);
+            $database->executeUpdate($query, $values);
+        }
     }
 
-    /**
-     * Fetch a request
-     * @return array
-     */
-    public function find(){
 
+    /**
+     * @return Query the query for this collection
+     */
+    public function buildQuery() {
+        return new Query($this->name);
     }
 
     /**
      * Find all parameters
-     * @param array $query
-     * @param array $fields
-     *
      * @return array - result
      */
-    public function findAll(array $query = array()) {
+    public function findAll() {
+        return $this->buildQuery()->findAll();
+    }
+
+
+    /**
+     * @param $item
+     */
+    public function drop($item) {
+        $itemId = $item;
+
+        if (is_object($item)) {
+            $itemId = $item->id;
+        }
+
+        $query = "DELETE FROM " . $this->getTableName() . " WHERE id = ?";
+        Database::getInstance()->executeUpdate($query, array($itemId));
 
     }
 
+
     /**
-     *
-     * join with another Repository
-     * @param Collection $repository
-     *
-     * @return Collection
+     * @return string the table name
      */
-    public function join(Collection $repository, array $condition = array()) {
-        return new Collection("");
+    public function getTableName() {
+        return NameDecorator::getTableName($this->name);
     }
 } 

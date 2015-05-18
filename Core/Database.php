@@ -61,20 +61,36 @@ class Database {
     /**
      * Execute query
      * @param string $query the query
+     * @param string className
      * @return mixed Query result
      */
     public function executeQuery($query, $className = "stdClass") {
         $statement = $this->pdo->prepare($query);
         $statement->execute();
+
         return $statement->fetchAll(\PDO::FETCH_CLASS, $className);
     }
 
     /**
      * Execute an update query
-     * @param $query
+     * @param $queryString
+     * @param $values
      * @return int number of affected rows
      */
-    public function executeUpdate($query) {
-        return $statement = $this->pdo->exec($query);
+    public function executeUpdate($queryString, $values = array()) {
+        $query = $this->pdo->prepare($queryString);
+        $statement = $query->execute($values);
+        var_dump($this->pdo->errorCode());
+        var_dump($this->pdo->errorInfo());
+        return $statement;
+    }
+
+    /**
+     * Escape a string
+     * @param $value
+     * @return string
+     */
+    public function escapeString($value) {
+        return $this->pdo->quote($value);
     }
 } 

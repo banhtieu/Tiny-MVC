@@ -14,27 +14,5 @@ namespace Core\Database;
  */
 class Model {
 
-    /**
-     * @var int id - the unique id of this object
-     */
-    private $id;
-
-    /**
-     * @return int
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
-
-    /**
-     * @param int $id
-     */
-    public function setId($id)
-    {
-        $this->id = $id;
-    }
-
-
 
 }
