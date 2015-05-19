@@ -25,7 +25,7 @@ define("CRITERIA_NOT_GREATER", "<=");
 class Query {
 
     /**
-     * @var Class
+     * @var string
      */
     private $entityClass;
 
@@ -35,6 +35,11 @@ class Query {
      */
     private $conditions = array();
 
+
+    /**
+     * @var array pagination option
+     */
+    private $paginateOptions;
 
     /**
      * @var string an SQL query string
@@ -54,9 +59,9 @@ class Query {
      * @param $field
      * @param $value
      * @param $criteria
-     * @return Collection
+     * @return Query
      */
-    public function findBy($field, $value, $criteria) {
+    public function findBy($field, $value, $criteria = CRITERIA_EQUAL) {
         $this->conditions[] = new QueryCondition($field, $value, $criteria);
         return $this;
     }
@@ -73,9 +78,9 @@ class Query {
     /**
      *
      * Build a query
-     * @param bool $limitOne
+     *
      */
-    public function buildQuery($limitOne = false) {
+    public function buildQuery() {
         if ($this->query == null) {
             $database = Database::getInstance();
 
@@ -94,26 +99,38 @@ class Query {
                 $this->query .= "WHERE " . join(", ", $conditionString);
             }
 
-            if ($limitOne) {
-                $this->query .= " LIMIT 0, 1";
+            if ($this->paginateOptions) {
+                $this->query .= " LIMIT {$this->paginateOptions[0]}, {$this->paginateOptions[1]}";
             }
         }
     }
 
 
-
     /**
      * Find one
+     * @return first element
      */
-    public function findOne() {
+    public function first() {
         $result = null;
 
-        $this->buildQuery(true);
+        $this->paginate(0, 1);
+        $this->buildQuery();
+
         $resultSet = Database::getInstance()->executeQuery($this->query, $this->entityClass);
+
         if (sizeof($resultSet) > 0) {
             $result = $resultSet[0];
         }
 
         return $result;
+    }
+
+    /**
+     * Limit number of returning result
+     * @param $page int
+     * @param $itemPerPage int
+     */
+    public function paginate($page, $itemPerPage) {
+        $this->paginateOptions = array($page * $itemPerPage, $itemPerPage);
     }
 }

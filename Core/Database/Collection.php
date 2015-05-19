@@ -113,7 +113,7 @@ class Collection {
     /**
      * @param $item
      */
-    public function drop($item) {
+    public function delete($item) {
         $itemId = $item;
 
         if (is_object($item)) {

@@ -32,16 +32,11 @@ $migration->execute();
 $application = new Application();
 $application->render();
 
-$tour = new \Application\Model\Tour();
-$tour->details = "Hello This is a Tour";
+echo "<pre>";
 
-try {
+$scanner = new \Core\Service\ServiceManager();
+$scanner->scan();
 
-    $tourCollection = \Core\Database\Repository::get("Tour");
-    $tourCollection->save($tour);
-    $tours = $tourCollection->findAll();
+var_dump($scanner);
 
-    echo json_encode($tours);
-} catch (Exception $exception) {
-    var_dump($exception);
-}
+echo "</pre>";

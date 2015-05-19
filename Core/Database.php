@@ -80,8 +80,6 @@ class Database {
     public function executeUpdate($queryString, $values = array()) {
         $query = $this->pdo->prepare($queryString);
         $statement = $query->execute($values);
-        var_dump($this->pdo->errorCode());
-        var_dump($this->pdo->errorInfo());
         return $statement;
     }
 
